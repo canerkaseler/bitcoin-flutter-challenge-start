@@ -1,4 +1,6 @@
-//TODO: Add your imports here.
+import 'package:flutter/cupertino.dart';
+
+import 'network.dart';
 
 const List<String> currenciesList = [
   'AUD',
@@ -35,4 +37,24 @@ const apiKey = 'YOUR-API-KEY-HERE';
 
 class CoinData {
   //TODO: Create your getCoinData() method here.
+
+  Future<dynamic> getCoinData(String coin, String money) async {
+    var coinData = await NetworkHelper().sendRequest(coin, money);
+
+    double value = coinData['rate'];
+
+    return Data(
+      coinData['asset_id_quote'],
+      coinData['asset_id_base'],
+      value.toStringAsFixed(2),
+    );
+  }
+}
+
+class Data {
+  String money;
+  String coin;
+  String value;
+
+  Data(this.money, this.coin, this.value);
 }
